@@ -1,176 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Consulting, manufacturing, shipping, and logistics for U.S. defense contracts with high-quality materials sourced from Türkiye.">
-    <title>CG Defense Consulting</title>
-    <link rel="icon" type="image/x-icon" href="img/CG-logo1.ico">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>CG Defense Consulting | Defense Procurement Solutions</title>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+	<style>
+		/* Reset & Base */
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body { font-family: 'Inter', sans-serif; color: #333; background: #f4f4f4; }
+		a { color: inherit; text-decoration: none; }
+		ul { list-style: none; }
 
-        header {
-            background-color: #00274d;
-            color: #fff;
-            /*background-color: #333333;
-            color: #ffffff;*/
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+		/* Top Bar */
+		.topbar { background: #101820; color: #faf5f5; font-size: 0.9rem; padding: 5px 20px; display: flex; justify-content: flex-end; gap: 20px; }
+		.topbar a { color: #fcf8f8; }
 
-        header .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+		/* Header & Navigation */
+		header {
+			position: sticky;
+			top: 0; z-index: 100;
+			/*background-color: #182026;*/
+			background-color: #fff;
+			background-image: url('./images/header-texture.png');
+			background-size: cover; background-position: center;
+		}
+		.nav-container {
+			max-width: 1200px; margin: auto;
+			display: flex; align-items: center; justify-content: space-between;
+			padding: 15px 20px;
+		}
+		.logo img { height: 60px; }
 
-        .logo {
-            max-width: 150px;
-            height: auto;
-            display: inline-block;
-            vertical-align: middle;
-        }
+		nav { position: relative; }
+		.menu { display: flex; gap: 30px; align-items: center; }
+		.menu > li { position: relative; }
+		.menu > li > a { color: #080808; font-weight: 600; padding: 8px; display: block; }
+		.menu > li:hover > a { color: #ffc107; }
+		.dropdown-menu {
+			position: absolute; top: 100%; left: 0;
+			background: #fff; min-width: 180px; border-radius: 4px;
+			box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+			opacity: 0; visibility: hidden; transform: translateY(5px);
+			transition: all 150ms ease-in-out;
+		}
+		.menu > li:hover .dropdown-menu {
+			opacity: 1; visibility: visible; transform: translateY(0);
+		}
+		.dropdown-menu li a { color: #182026; padding: 10px 15px; display: block; font-weight: 500; }
+		.dropdown-menu li a:hover { background: #f0f0f0; }
 
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            gap: 1rem;
-        }
+		/* Carousel */
+		.carousel { position: relative; width: 100%; height: 60vh; max-height: 600px; overflow: hidden; }
+		.slide { position: absolute; top: 0; left: 100%; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: all 1s ease; }
+		.slide.active { left: 0; opacity: 1; }
+		.slide-content { position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%); color: #fff; text-align: center; padding: 0 20px; }
+		.slide-content h1 { font-size: 2.5rem; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.7); }
+		.slide-content p { font-size: 1.2rem; text-shadow: 0 1px 3px rgba(0,0,0,0.7); }
+		.dots { position: absolute; bottom: 10px; width: 100%; text-align: center; }
+		.dot { display: inline-block; width: 12px; height: 12px; margin: 0 5px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: background 0.3s; }
+		.dot.active { background: #ffc107; }
 
-        nav ul li {
-            display: inline;
-        }
+		/* Collections */
+		.section { padding: 60px 20px; max-width: 1200px; margin: auto; }
+		.section h2 { text-align: center; color: #182026; font-size: 2rem; margin-bottom: 40px; }
+		.filters { text-align: center; margin-bottom: 30px; }
+		.filters button { background: none; border: 2px solid #182026; color: #182026; padding: 8px 16px; margin: 0 10px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+		.filters button.active, .filters button:hover { background: #182026; color: #fff; }
+		.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+		.card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: transform 150ms ease; }
+		.card:hover { transform: translateY(-5px); }
+		.card img { width: 100%; height: 160px; object-fit: cover; }
+		.card-content { padding: 15px; }
+		.card-content h3 { margin-bottom: 8px; color: #182026; }
+		.card-content p { font-size: 0.9rem; }
 
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
+		/* Manufacturing Network */
+		#suppliers {
+			background: #fff; border: 1px solid #ddd; border-radius: 8px;
+			padding: 60px 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+			margin: 40px auto; max-width: 1000px;
+		}
+		#suppliers h2 { text-align: center; color: #182026; margin-bottom: 20px; }
+		#suppliers p { text-align: center; max-width: 800px; margin: 10px auto; color: #444; line-height: 1.5; }
 
-        .hero {
-            background-image: url('https://via.placeholder.com/1920x600'); /* Replace with relevant image */
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            text-align: center;
-            padding: 5rem 2rem;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin: 0;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .section {
-            padding: 2rem;
-        }
-
-        .section h2 {
-            font-size: 2rem;
-            color: #00274d;
-            margin-bottom: 1rem;
-        }
-
-        .cards {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .card {
-            background: #f5f5f5;
-            padding: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-top: 0;
-        }
-
-        footer {
-            background-color: #00274d;
-            color: #fff;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        footer p {
-            margin: 0;
-        }
-    </style>
+		/* Footer */
+		footer { background: #182026; color: #fff; text-align: center; padding: 30px 20px; font-size: 0.9rem; }
+	</style>
 </head>
 <body>
+	<!-- <div class="topbar">
+		<a href="#order-status">Order Status</a>
+		<a href="#customer-portal">Customer Portal</a>
+	</div> -->
 
-<header>
-    <!--<div class="logo">CG Defense Consulting</div>-->
-    <img src = 'img/logo_eng_tr.png' class = 'logo'>
+	<header>
+		<div class="nav-container">
+			<div class="logo"><img src="./images/logo.png" alt="CG Defense Consulting Logo"></div>
+			<nav>
+				<ul class="menu">
+					<li>
+						<a href="#">Equipment</a>
+						<ul class="dropdown-menu">
+							<li><a href="#textiles">Textiles</a></li>
+							<li><a href="hardware.html">Nuts &amp; Bolts</a></li>
+						</ul>
+					</li>
+					<li><a href="#suppliers">Manufacturing Network</a></li>
+					<li>
+						<a href="#">Services</a>
+						<ul class="dropdown-menu">
+							<li><a href="#partnership">Supplier Partnerships</a></li>
+							<li><a href="#analysis">Market Analysis</a></li>
+							<li><a href="#logistics">Shipping &amp; Logistics</a></li>
+						</ul>
+					</li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#contact">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
 
-    <nav>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-</header>
+	<!-- Carousel Hero -->
+	<div class="carousel">
+		<div class="slide active" style="background-image: url('./images/hero.jpg');">
+			<div class="slide-content">
+				<h1>Trusted Procurement for U.S. Defense Contracts</h1>
+				<p>Textiles, Nuts &amp; Bolts, backed by Supplier Partnerships, Market Analysis, and Global Logistics</p>
+			</div>
+		</div>
+		<div class="slide" style="background-image: url('./images/hero2.jpg');">
+			<div class="slide-content">
+				<h1>Unlock the Full Potential of Your Business</h1>
+				<p>With our 4+ years of tested market analysis</p>
+			</div>
+		</div>
+		<div class="slide" style="background-image: url('./images/hero3.jpg');">
+			<div class="slide-content">
+				<h1>Submit Your Products</h1>
+				<p>Further enhance your pipelines with CGDC</p>
+			</div>
+		</div>
+		<div class="dots">
+			<span class="dot active" data-index="0"></span>
+			<span class="dot" data-index="1"></span>
+			<span class="dot" data-index="2"></span>
+		</div>
+	</div>
 
-<section class="hero" style="background-image: url('https://tse3.mm.bing.net/th?id=OIP.PmDIZ8Ds6DX4DbJFsbbtGwHaGL&pid=Api');">
-    <h1>High-Quality Materials, Trusted Solutions</h1>
-    <p>Consulting, manufacturing, and logistics for U.S. defense contracts with materials sourced from Türkiye.</p>
-</section>
+	<!-- Collections -->
+	<section id="collections" class="section">
+		<h2>Browse Our Categories</h2>
+		<div class="filters">
+			<button class="filter-btn active" data-filter="*">All</button>
+			<button class="filter-btn" data-filter="textile">Textiles</button>
+			<button class="filter-btn" data-filter="hardware">Nuts &amp; Bolts</button>
+		</div>
+		<div class="grid">
+			<div class="card textile">
+				<img src="./images/textiles.jpg" alt="Textiles">
+				<div class="card-content"><h3>Military-Grade Fabric</h3><p>Durable textile solutions meeting strict defense standards.</p></div>
+			</div>
+			<div class="card textile">
+				<img src="./images/tshirts.jpg" alt="Department T-Shirts & Hoodies">
+				<div class="card-content"><h3>Department T-Shirts & Hoodies</h3><p>Custom branded apparel for your team.</p></div>
+			</div>
+			<div class="card textile">
+				<img src="./images/patches.jpg" alt="Branch Patches">
+				<div class="card-content"><h3>Branch Patches</h3><p>Embroidered patches for unit identification.</p></div>
+			</div>
+			<div class="card textile">
+				<img src="./images/protective_gear.jpg" alt="Specialized Protective Gear">
+				<div class="card-content"><h3>Specialized Protective Gear</h3><p>High-performance gear for extreme conditions.</p></div>
+			</div>
+			<a href="hardware.html" class="card hardware">
+				<img src="./images/bolts.jpg" alt="Nuts, Bolts &amp; Screws">
+				<div class="card-content"><h3>Precision Hardware</h3><p>Bolts, nuts, and screws compliant with defense specs.</p></div>
+			</a>
+		</div>
+	</section>
 
-<section class="section" id="about">
-    <h2>About Us</h2>
-    <p>CG Defense Consulting provides tailored solutions to fullfilment needs, specializing in sourcing premium textiles and materials from Türkiye, supporting U.S. defense contracts through reliable consulting, manufacturing, and logistics services. We are dedicated to enhancing the sourcing and procurement environment throughout the defense industry.</p>
-</section>
+	<!-- Manufacturing Network -->
+	<section id="suppliers">    
+		<h2>Manufacturing Network</h2>    
+		<p>We utilize our international manufacturing network to source only from the most trusted and reputable brands, ensuring quality, reliability, and compliance across all defense contracts.</p>    
+		<p>All items are sourced only from compliant and approved nations, following NATO standards and guidelines.</p>    
+		<p>Each product undergoes rigorous testing requirements, including environmental, performance, and compliance assessments to guarantee mission readiness.</p>
+	</section>
 
-<section class="section" id="services">
-    <h2>Our Services</h2>
-    <div class="cards">
-        <div class="card">
-        	<img src="img/bench-accounting-C3V88BOoRoM-unsplash.jpg" alt="Consulting Services" style="width: 100%; border-radius: 8px;">
-            <h3>Consulting</h3>
-            <p>Strategic insights and advisory for U.S. defense contract compliance and material sourcing.</p>
-        </div>
-        <div class="card">
-        	<img src="https://tse3.mm.bing.net/th?id=OIP.TiWLhoqSQRdwgihF10cZZAHaE8&pid=Api" alt="Manufacturing" style="width: 100%; border-radius: 8px;">
-            <h3>Manufacturing</h3>
-            <p>High-quality textile and material production tailored to defense industry standards.</p>
-        </div>
-        <div class="card">
-        	<img src="https://tse2.mm.bing.net/th?id=OIP.7SJ5vxpR7InlJgbvMsZxYgHaEO&pid=Api" alt="Shipping & Logistics" style="width: 100%; border-radius: 8px;">
-            <h3>Shipping & Logistics</h3>
-            <p>Efficient global logistics solutions ensuring timely delivery of goods.</p>
-        </div>
-    </div>
-</section>
+	<footer>&copy; 2025 CG Defense Consulting LLC. All Rights Reserved.</footer>
 
-<section class="section" id="contact">
-    <h2>Contact Us</h2>
-    <p>Email: info@cgdefenseconsulting.com</p>
-    <!--<p>Phone: +1 (646) 893-8705</p>-->
-    <!--<p>Address: 123 Business Lane, City, State, ZIP</p>-->
-</section>
+	<script>
+		// Carousel
+		let currentSlide = 0;
+		const slides = document.querySelectorAll('.slide');
+		const dots = document.querySelectorAll('.dot');
+		function showSlide(i) {
+			slides.forEach((s,j)=>s.classList.toggle('active', i===j));
+			dots.forEach((d,j)=>d.classList.toggle('active', i===j));
+			currentSlide = i;
+		}
+		function nextSlide(){ showSlide((currentSlide+1)%slides.length); }
+		dots.forEach(d=>d.addEventListener('click', () => showSlide(parseInt(d.dataset.index))));
+		setInterval(nextSlide, 20000);
 
-<footer>
-    <p>&copy; 2025 CG Defense Consulting LLC. All Rights Reserved.</p>
-</footer>
-
+		// Filter functionality
+		document.querySelectorAll('.filter-btn').forEach(btn => {
+			btn.addEventListener('click', () => {
+				document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+				btn.classList.add('active');
+				const filter = btn.dataset.filter;
+				document.querySelectorAll('.grid .card').forEach(c => {
+					c.style.display = (filter==='*' || c.classList.contains(filter)) ? 'block' : 'none';
+				});
+			});
+		});
+	</script>
 </body>
 </html>
